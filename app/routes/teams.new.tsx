@@ -14,24 +14,24 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
   const title = formData.get("title");
-  const code = formData.get("code");
+  // const code = formData.get("code");
   const redirectTo = safeRedirect(formData.get("redirectTo"), "/");
 
   if (typeof title !== "string" || title.length === 0) {
     return json(
-      { errors: { title: "Team title is required", code: null } },
+      { errors: { title: "Team title is required" } },
       { status: 400 }
     );
   }
 
-  if (typeof code !== "string" || code.length === 0) {
-    return json(
-      { errors: { title: null, code: "Team code is required" } },
-      { status: 400 }
-    );
-  }
+  // if (typeof code !== "string" || code.length === 0) {
+  //   return json(
+  //     { errors: { title: null, code: "Team code is required" } },
+  //     { status: 400 }
+  //   );
+  // }
 
-  const team = await createTeam(title, code);
+  const team = await createTeam(title);
   return redirect(`/teams/${team.id}`);
 };
 
@@ -47,8 +47,6 @@ export default function CreateTeamPage() {
   useEffect(() => {
     if (actionData?.errors?.title) {
       titleRef.current?.focus();
-    } else if (actionData?.errors?.code) {
-      codeRef.current?.focus();
     }
   }, [actionData]);
 
@@ -80,7 +78,7 @@ export default function CreateTeamPage() {
             </div>
           </div>
 
-          <div>
+          {/* <div>
             <label htmlFor="code" className="block text-sm font-medium text-gray-700">
               Team Code
             </label>
@@ -101,7 +99,7 @@ export default function CreateTeamPage() {
                 </div>
               ) : null}
             </div>
-          </div>
+          </div> */}
 
           <input type="hidden" name="redirectTo" value={redirectTo} />
 
