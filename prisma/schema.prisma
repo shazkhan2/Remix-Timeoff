@@ -1,5 +1,5 @@
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -16,6 +16,25 @@ model User {
 
   password Password?
   notes    Note[]
+}
+
+model Team {
+  id          Int      @id @default(autoincrement())
+  title       String
+  created_date DateTime @default(now())
+  code        String
+  members     Member[]
+}
+model Member {
+  id              Int      @id @default(autoincrement())
+  first_name      String
+  last_name       String
+  member_email    String
+  daysoff         Int
+  allowed_daysoff Int
+  created_date    DateTime
+  team_id         Int
+  team            Team     @relation(fields: [team_id], references: [id])
 }
 
 model Password {
