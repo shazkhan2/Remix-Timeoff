@@ -7,14 +7,12 @@ import { createTeam } from "~/models/team.server";
 import { safeRedirect } from "~/utils";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  // This loader checks for a logged-in user, which isn't relevant here, so it could be omitted.
   return json({});
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
   const title = formData.get("title");
-  // const code = formData.get("code");
   const redirectTo = safeRedirect(formData.get("redirectTo"), "/");
 
   if (typeof title !== "string" || title.length === 0) {
@@ -24,12 +22,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     );
   }
 
-  // if (typeof code !== "string" || code.length === 0) {
-  //   return json(
-  //     { errors: { title: null, code: "Team code is required" } },
-  //     { status: 400 }
-  //   );
-  // }
+
 
   const team = await createTeam(title);
   return redirect(`/teams/${team.id}`);
@@ -78,28 +71,7 @@ export default function CreateTeamPage() {
             </div>
           </div>
 
-          {/* <div>
-            <label htmlFor="code" className="block text-sm font-medium text-gray-700">
-              Team Code
-            </label>
-            <div className="mt-1">
-              <input
-                ref={codeRef}
-                id="code"
-                required
-                name="code"
-                type="text"
-                aria-invalid={actionData?.errors?.code ? true : undefined}
-                aria-describedby="code-error"
-                className="w-full rounded border border-gray-500 px-2 py-1 text-lg"
-              />
-              {actionData?.errors?.code ? (
-                <div className="pt-1 text-red-700" id="code-error">
-                  {actionData.errors.code}
-                </div>
-              ) : null}
-            </div>
-          </div> */}
+         
 
           <input type="hidden" name="redirectTo" value={redirectTo} />
 

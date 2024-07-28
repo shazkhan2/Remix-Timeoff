@@ -6,35 +6,28 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
-
 model User {
-  id    String @id @default(cuid())
-  email String @unique
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  password Password?
-  notes    Note[]
+  id              String   @id @default(cuid())
+  email           String   @unique
+  first_name      String
+  last_name       String
+  daysoff         Int
+  allowed_daysoff Int
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  team_id         Int?
+  team            Team?    @relation(fields: [team_id], references: [id])
+  password        Password?
+  notes           Note[]
+  time_offs       TimeOff[]
 }
 
 model Team {
   id          Int      @id @default(autoincrement())
   title       String
-  created_date DateTime @default(now())
+  createdAt   DateTime @default(now())
   code        String
-  members     Member[]
-}
-model Member {
-  id              Int      @id @default(autoincrement())
-  first_name      String
-  last_name       String
-  member_email    String
-  daysoff         Int
-  allowed_daysoff Int
-  created_date    DateTime
-  team_id         Int
-  team            Team     @relation(fields: [team_id], references: [id])
+  members     User[]
 }
 
 model Password {
@@ -45,13 +38,21 @@ model Password {
 }
 
 model Note {
-  id    String @id @default(cuid())
-  title String
-  body  String
-
+  id        String   @id @default(cuid())
+  title     String
+  body      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
 
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId String
+model TimeOff {
+  id          Int      @id @default(autoincrement())
+  start_date  DateTime
+  end_date    DateTime
+  description String
+  createdAt   DateTime @default(now())
+  user_id     String
+  user        User     @relation(fields: [user_id], references: [id])
 }

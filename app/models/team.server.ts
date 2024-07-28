@@ -6,7 +6,10 @@ function generateRandomCode(length: number = 6): string {
 }
 
 export async function getTeamById(id: number): Promise<Team | null> {
-  return prisma.team.findUnique({ where: { id } });
+  return prisma.team.findUnique({
+    where: { id },
+    include: { members: true }
+  });
 }
 
 export async function createTeam(title: string): Promise<Team> {
@@ -23,4 +26,28 @@ export async function createTeam(title: string): Promise<Team> {
 
 export async function deleteTeamById(id: number): Promise<Team> {
   return prisma.team.delete({ where: { id } });
+}
+
+export async function addMembersToTeam(teamId: number, memberIds: string[]) {
+  return prisma.team.update({
+    where: { id: teamId },
+    data: {
+      members: {
+        connect: memberIds.map(id => ({ id })),
+      },
+    },
+    include: { members: true },
+  });
+}
+
+export async function removeMemberFromTeam(teamId: number, memberId: string) {
+  return prisma.team.update({
+    where: { id: teamId },
+    data: {
+      members: {
+        disconnect: { id: memberId },
+      },
+    },
+    include: { members: true },
+  });
 }
