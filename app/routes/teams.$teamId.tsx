@@ -1,28 +1,3 @@
-// import type { LoaderFunctionArgs } from "@remix-run/node";
-// import { json } from "@remix-run/node";
-// import { useLoaderData } from "@remix-run/react";
-// import { getTeamById, getAllMmembers, getTeamMembers } from "~/models/team.server";
-
-// export const loader = async ({ params }: LoaderFunctionArgs) => {
-//   const teamId = parseInt(params.teamId, 10);
-//   const team = await getTeamById(teamId);
-//   if (!team) {
-//     throw new Response("Not Found", { status: 404 });
-//   }
-//   return json({ team });
-// };
-
-// export default function TeamDetail() {
-//   const { team } = useLoaderData<typeof loader>();
-
-//   return (
-//     <div className="flex min-h-screen flex-col items-center mt-10 gap-y-8">
-//       <h1> <span className="text-2xl font-bold">Name: </span> {team.title}</h1>
-//       <p><span className="text-2xl font-bold">Code: </span> {team.code}</p>
-//       <p><span className="text-2xl font-bold">Created Date: </span>{new Date(team.created_date).toLocaleDateString()}</p>
-//     </div>
-//   );
-// }
 
 import type { LoaderFunctionArgs, ActionFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
@@ -55,8 +30,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     }
     await addMembersToTeam(teamId, userIds);
   }
+  return json({ success: true });
 
-  return redirect(`/team/${teamId}`);
 };
 
 export default function TeamDetail() {
