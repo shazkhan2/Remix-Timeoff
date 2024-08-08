@@ -51,3 +51,15 @@ export async function removeMemberFromTeam(teamId: number, memberId: string) {
     include: { members: true },
   });
 }
+
+export async function verifyTeamLogin(teamName: string, teamCode: string) {
+  const team = await prisma.team.findFirst({
+    where: { title: teamName },
+  });
+
+  if (!teamName || team.code !==teamCode) {
+    return null;
+  }
+
+  return team;
+}

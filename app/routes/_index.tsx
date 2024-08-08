@@ -44,6 +44,12 @@ export default function Index() {
                 >
                   Create Team
                 </Link>
+                <Link
+                  to="/teams/login"
+                  className="flex items-center justify-center rounded-md bg-yellow-500 px-4 py-3 font-medium text-white hover:bg-yellow-600"
+                >
+                  Team Log In
+                </Link>
               </div>
             )}
           </div>
