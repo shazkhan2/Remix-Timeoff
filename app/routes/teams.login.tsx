@@ -21,7 +21,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
   const teamName = formData.get("teamName");
   const teamCode = formData.get("teamCode");
-  const redirectTo = safeRedirect(formData.get("redirectTo"), "/");
+  // const redirectTo = safeRedirect(formData.get("redirectTo"), "/");
   const remember = formData.get("remember");
 
   if (typeof teamName !== "string" || teamName.length === 0) {
@@ -46,7 +46,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       { status: 400 },
     );
   }
-
+  const redirectTo = `/teams/${team.id}`;
   return createUserSession({
     redirectTo,
     remember: remember === "on" ? true : false,
