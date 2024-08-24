@@ -11,10 +11,10 @@ export default function Index() {
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 shadow-xl sm:overflow-hidden sm:rounded-2xl">
         <div className="relative px-4 pb-8 pt-16 sm:px-6 sm:pb-14 sm:pt-24 lg:px-8 lg:pb-20 lg:pt-32">
           <h1 className="text-center text-6xl font-extrabold tracking-tight sm:text-8xl lg:text-9xl">
-            <span className="block uppercase text-yellow-500 drop-shadow-md">Indie Stack</span>
+            <span className="block uppercase text-yellow-500 drop-shadow-md">Time Booking App</span>
           </h1>
           <p className="mx-auto mt-6 max-w-lg text-center text-xl text-yellow-800 sm:max-w-3xl">
-            Check the README.md file for instructions on how to get this project deployed.
+            Here you can create a new account and then login to book holidays for yourself. 
           </p>
           <div className="mx-auto mt-10 max-w-sm sm:flex sm:max-w-none sm:justify-center">
             {user ? (
@@ -38,12 +38,7 @@ export default function Index() {
                 >
                   Log In
                 </Link>
-                <Link
-                  to="/teams/new"
-                  className="flex items-center justify-center rounded-md bg-yellow-500 px-4 py-3 font-medium text-white hover:bg-yellow-600"
-                >
-                  Create Team
-                </Link>
+                
                 <Link
                   to="/teams/login"
                   className="flex items-center justify-center rounded-md bg-yellow-500 px-4 py-3 font-medium text-white hover:bg-yellow-600"
