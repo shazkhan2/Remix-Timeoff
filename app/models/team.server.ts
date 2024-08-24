@@ -53,10 +53,11 @@ export async function removeMemberFromTeam(teamId: number, memberId: string) {
 }
 
 export async function verifyTeamLogin(teamName: string, teamCode: string) {
+  console.log(teamCode, teamName);
   const team = await prisma.team.findFirst({
     where: { title: teamName },
   });
-
+console.log(team)
   if (!teamName || team.code !==teamCode) {
     return null;
   }

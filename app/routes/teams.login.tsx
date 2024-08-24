@@ -8,12 +8,16 @@ import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 
 import { verifyTeamLogin } from "~/models/team.server";
-import { createUserSession, getUserId } from "~/session.server";
+// import { createUserSession, getUserId } from "~/session.server";
+import { createTeamSession, getTeamId } from "~/session.server"; // Import createTeamSession and getTeamId
+
 import { safeRedirect } from "~/utils";
 
+
+
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const userId = await getUserId(request);
-  if (userId) return redirect("/");
+  const teamId = await getTeamId(request); // Check for existing team session
+  if (teamId) return redirect(`/teams/${teamId}`); // Redirect if team is already logged in
   return json({});
 };
 
@@ -21,7 +25,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
   const teamName = formData.get("teamName");
   const teamCode = formData.get("teamCode");
-  // const redirectTo = safeRedirect(formData.get("redirectTo"), "/");
   const remember = formData.get("remember");
 
   if (typeof teamName !== "string" || teamName.length === 0) {
@@ -39,7 +42,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 
   const team = await verifyTeamLogin(teamName, teamCode);
-
+console.log(team);
   if (!team) {
     return json(
       { errors: { teamName: "Invalid team name or team code", teamCode: null } },
@@ -47,13 +50,21 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     );
   }
   const redirectTo = `/teams/${team.id}`;
-  return createUserSession({
-    redirectTo,
-    remember: remember === "on" ? true : false,
-    request,
-    userId: team.id,
-  });
+//   return createUserSession({
+//     redirectTo,
+//     remember: remember === "on" ? true : false,
+//     request,
+//     userId: team.id,
+//   });
+// };
+return createTeamSession({
+  redirectTo,
+  remember: remember === "on",
+  request,
+  teamId: team.id.toString(), // Store team ID in session
+});
 };
+
 
 export const meta: MetaFunction = () => [{ title: "Team Login" }];
 
