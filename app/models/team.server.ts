@@ -19,7 +19,6 @@ export async function createTeam(title: string): Promise<Team> {
     data: {
       title,
       code,
-      // created_date: new Date(),
     },
   });
 }

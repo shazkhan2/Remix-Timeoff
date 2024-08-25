@@ -112,11 +112,9 @@ export default function TeamDetail() {
       </div>
 
       {/* Right Side: Team Details */}
-      <div className="flex-1 p-6">
+      <div className="flex-2 p-6">
         <h1 className="text-3xl font-bold">Team: {team.title}</h1>
         <p>Code: {team.code}</p>
-        <p>Created Date: {new Date(team.created_date).toLocaleDateString()}</p>
-
         <Form method="post" className="flex flex-col items-center gap-y-4 mt-6">
           <select
             name="members"
@@ -125,7 +123,7 @@ export default function TeamDetail() {
           >
             {users.map(user => (
               <option key={user.id} value={user.id}>
-                {user.email}
+                {user.first_name}
               </option>
             ))}
           </select>
